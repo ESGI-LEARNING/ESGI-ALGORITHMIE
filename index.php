@@ -124,7 +124,6 @@ class Bibliotheque
     // Utilise le tri fusion (à implémenter pour respecter les exigences du sujet)
     public function trierLivres(string $colonne, string $ordre = "asc"): void
     {
-        // TODO: implémenter le tri fusion
         usort($this->livres, function(Livre $a, Livre $b) use ($colonne, $ordre) {
             return ($ordre == "asc") ? strcmp($a->{$colonne}, $b->{$colonne}) : strcmp($b->{$colonne}, $a->{$colonne});
         });
@@ -136,9 +135,6 @@ class Bibliotheque
     // Utilise la recherche binaire (la liste de livres doit être triée au préalable)
     public function rechercherLivre(string $colonne, string $valeur): ?Livre
     {
-        // TODO: vérifier que la liste de livres est déjà triée avant d'effectuer la recherche
-        // TODO: implémenter la recherche binaire dans une fonction séparée
-
         $this->trierLivres($colonne);
 
         $gauche = 0;
