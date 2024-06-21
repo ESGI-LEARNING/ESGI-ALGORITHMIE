@@ -1,0 +1,11 @@
+{
+    "name": "app/esgi-algorithmie",
+    "autoload": {
+        "psr-4": {
+            "App\\EsgiAlgorithmie\\": "src/"
+        }
+    },
+    "require": {
+      "ext-readline": "*"
+    }
+}
