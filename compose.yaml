@@ -16,19 +16,6 @@ services:
     networks:
       - app_network
 
-  # Nginx Service
-  nginx:
-    image: nginx:stable-alpine3.19-slim
-    container_name: ${APP_SLUG}_nginx
-    restart: unless-stopped
-    ports:
-      - "8888:80"
-    volumes:
-      - ./:/var/www
-      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      - app_network
-
 # Docker Networks
 networks:
   app_network:
