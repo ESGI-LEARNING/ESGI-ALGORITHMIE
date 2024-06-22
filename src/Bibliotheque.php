@@ -15,17 +15,12 @@ final class Bibliotheque
     }
 
     // Sauvegarde les livres dans un fichier JSON
-    private function sauvegarderLivres(): void
-    {
-        file_put_contents("livres.json", json_encode($this->livres));
-    }
 
-    // Charge les livres depuis le fichier JSON
     private function chargerLivres(): void
     {
         if (file_exists("livres.json")) {
             $jsonData = file_get_contents("livres.json");
-            $arrayData = json_decode($jsonData, true);
+            $arrayData = json_decode($jsonData, true, 512, JSON_THROW_ON_ERROR);
 
             if (is_array($arrayData)) {
                 foreach ($arrayData as $data) {
@@ -36,23 +31,33 @@ final class Bibliotheque
         }
     }
 
-    // Enregistre une action dans l'historique
-    private function enregistrerAction(string $action): void
-    {
-        $this->historique[] = $action;
-    }
+    // Charge les livres depuis le fichier JSON
 
-    // Ajoute un livre à la bibliothèque
     public function ajouterLivre(string $nom, string $description, bool $disponible): void
     {
-        $id = uniqid();
+        $id = uniqid('', true);
         $livre = new Livre($id, $nom, $description, $disponible);
         $this->livres[$id] = $livre;
         $this->sauvegarderLivres();
         $this->enregistrerAction("Ajout du livre '$nom'");
     }
 
+    // Enregistre une action dans l'historique
+
+    private function sauvegarderLivres(): void
+    {
+        file_put_contents("livres.json", json_encode($this->livres, JSON_THROW_ON_ERROR));
+    }
+
+    // Ajoute un livre à la bibliothèque
+
+    private function enregistrerAction(string $action): void
+    {
+        $this->historique[] = $action;
+    }
+
     // Modifie un livre dans la bibliothèque
+
     public function modifierLivre(string $id, string $nom, string $description, bool $disponible): void
     {
         if (isset($this->livres[$id])) {
@@ -102,17 +107,7 @@ final class Bibliotheque
 
     // Trie les livres selon une colonne et un ordre donnés
     // Utilise le tri fusion (à implémenter pour respecter les exigences du sujet)
-    public function trierLivres(string $colonne, string $ordre = "asc"): void
-    {
-        usort($this->livres, function(Livre $a, Livre $b) use ($colonne, $ordre) {
-            return ($ordre === "asc") ? strcmp($a->{$colonne}, $b->{$colonne}) : strcmp($b->{$colonne}, $a->{$colonne});
-        });
-        $this->sauvegarderLivres();
-        $this->enregistrerAction("Tri des livres par '$colonne' ($ordre)");
-    }
 
-    // Recherche un livre dans la bibliothèque
-    // Utilise la recherche binaire (la liste de livres doit être triée au préalable)
     public function rechercherLivre(string $colonne, string $valeur): ?Livre
     {
         $this->trierLivres($colonne);
@@ -125,7 +120,8 @@ final class Bibliotheque
             $comparaison = strcmp($this->livres[$milieu]->{$colonne}, $valeur);
             if ($comparaison == 0) {
                 return $this->livres[$milieu];
-            } elseif ($comparaison < 0) {
+            }
+            if ($comparaison < 0) {
                 $gauche = $milieu + 1;
             } else {
                 $droite = $milieu - 1;
@@ -134,7 +130,20 @@ final class Bibliotheque
         return null;
     }
 
+    // Recherche un livre dans la bibliothèque
+    // Utilise la recherche binaire (la liste de livres doit être triée au préalable)
+
+    public function trierLivres(string $colonne, string $ordre = "asc"): void
+    {
+        usort($this->livres, function (Livre $a, Livre $b) use ($colonne, $ordre) {
+            return ($ordre === "asc") ? strcmp($a->{$colonne}, $b->{$colonne}) : strcmp($b->{$colonne}, $a->{$colonne});
+        });
+        $this->sauvegarderLivres();
+        $this->enregistrerAction("Tri des livres par '$colonne' ($ordre)");
+    }
+
     // Affiche l'historique des actions effectuées
+
     public function afficherHistorique(): void
     {
         echo "Historique des actions :\n";
