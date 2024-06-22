@@ -33,6 +33,9 @@ final class Bibliotheque
 
     // Charge les livres depuis le fichier JSON
 
+    /**
+     * @throws \JsonException
+     */
     public function ajouterLivre(string $nom, string $description, bool $disponible): void
     {
         $id = uniqid('', true);
@@ -44,6 +47,9 @@ final class Bibliotheque
 
     // Enregistre une action dans l'historique
 
+    /**
+     * @throws \JsonException
+     */
     private function sauvegarderLivres(): void
     {
         file_put_contents("livres.json", json_encode($this->livres, JSON_THROW_ON_ERROR));
@@ -58,6 +64,9 @@ final class Bibliotheque
 
     // Modifie un livre dans la bibliothèque
 
+    /**
+     * @throws \JsonException
+     */
     public function modifierLivre(string $id, string $nom, string $description, bool $disponible): void
     {
         if (isset($this->livres[$id])) {
@@ -73,6 +82,10 @@ final class Bibliotheque
     }
 
     // Supprime un livre de la bibliothèque
+
+    /**
+     * @throws \JsonException
+     */
     public function supprimerLivre(string $id): void
     {
         if (isset($this->livres[$id])) {
@@ -106,8 +119,11 @@ final class Bibliotheque
     }
 
     // Trie les livres selon une colonne et un ordre donnés
-    // Utilise le tri fusion (à implémenter pour respecter les exigences du sujet)
+    // Utilise le tri fusion
 
+    /**
+     * @throws \JsonException
+     */
     public function rechercherLivre(string $colonne, string $valeur): ?Livre
     {
         $this->trierLivres($colonne);
@@ -131,8 +147,11 @@ final class Bibliotheque
     }
 
     // Recherche un livre dans la bibliothèque
-    // Utilise la recherche binaire (la liste de livres doit être triée au préalable)
+    // Utilise la recherche binaire
 
+    /**
+     * @throws \JsonException
+     */
     public function trierLivres(string $colonne, string $ordre = "asc"): void
     {
         usort($this->livres, function (Livre $a, Livre $b) use ($colonne, $ordre) {
