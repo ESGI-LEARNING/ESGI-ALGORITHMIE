@@ -38,7 +38,8 @@ final class Bibliotheque
      */
     public function ajouterLivre(string $nom, string $description, bool $disponible): void
     {
-        $id = uniqid('', true);
+        $id = count($this->livres);
+        ++$id;
         $livre = new Livre($id, $nom, $description, $disponible);
         $this->livres[$id] = $livre;
         $this->sauvegarderLivres();
@@ -69,6 +70,7 @@ final class Bibliotheque
      */
     public function modifierLivre(string $id, string $nom, string $description, bool $disponible): void
     {
+        --$id;
         if (isset($this->livres[$id])) {
             $livre = $this->livres[$id];
             $livre->nom = $nom;
@@ -88,6 +90,7 @@ final class Bibliotheque
      */
     public function supprimerLivre(string $id): void
     {
+        --$id;
         if (isset($this->livres[$id])) {
             $nom = $this->livres[$id]->nom;
             unset($this->livres[$id]);
@@ -110,6 +113,7 @@ final class Bibliotheque
     // Affiche les détails d'un livre
     public function afficherLivre(string $id): void
     {
+        --$id;
         if (isset($this->livres[$id])) {
             $livre = $this->livres[$id];
             echo "ID: {$livre->id}, Nom: {$livre->nom}, Description: {$livre->description}, Disponible: " . ($livre->disponible ? "Oui" : "Non") . "\n";
