@@ -2,15 +2,15 @@
 
 namespace App\EsgiAlgorithmie\Console;
 
-use DataType;
+use App\EsgiAlgorithmie\Enum\ConsoleEnum;
 
 class Console
 {
-    public function read(\DataType $type, string $message, string $default = null): string|int|bool
+    public function read(ConsoleEnum $type, string $message, string $default = null): string|int|bool
     {
-        if ($type == DataType::Boolean) {
+        if ($type == ConsoleEnum::Boolean) {
            return $this->returnBool(readLine($message));
-        } else if ($type == DataType::Integer) {
+        } else if ($type == ConsoleEnum::Integer) {
             return $this->returnInt(readLine($message));
         } else {
             return readline($message);
