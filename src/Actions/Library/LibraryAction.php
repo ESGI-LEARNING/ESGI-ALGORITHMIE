@@ -54,8 +54,8 @@ class LibraryAction
     public function update(int $id, string $name, string $description, bool $is_available): void
     {
         foreach ($this->books as &$objet) {
-            if ($objet['id'] == $id) {
-                $objet['nom'] = $name;
+            if ($objet['id'] === $id) {
+                $objet['name'] = $name;
                 $objet['description'] = $description;
                 $objet['is_available'] = $is_available;
             } else {
@@ -122,11 +122,6 @@ class LibraryAction
      */
     private function getLastId(): int
     {
-        $lastId = 0;
-        foreach ($this->books as $book) {
-            $lastId = max($lastId, $book['id']);
-        }
-
-        return $lastId + 1;
+        return count($this->books) + 1;
     }
 }
