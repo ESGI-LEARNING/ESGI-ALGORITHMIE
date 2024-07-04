@@ -52,15 +52,15 @@ class LibraryAction
      */
     public function update(int $id, string $name, string $description, bool $is_available): void
     {
-        foreach ($this->books as &$objet) {
-            if ($objet['id'] === $id) {
-                $objet['name'] = $name;
-                $objet['description'] = $description;
-                $objet['is_available'] = $is_available;
-
+        foreach ($this->books as $key => $book) {
+            if ($book['id'] == $id) {
+                $this->books[$key] = [
+                    'id' => $id,
+                    'name' => $name,
+                    'description' => $description,
+                    'is_available' => $is_available
+                ];
                 break;
-            } else {
-                $this->logAction->add('Book not found with id ' . $id);
             }
         }
 
@@ -126,6 +126,13 @@ class LibraryAction
      */
     private function getLastId(): int
     {
-        return count($this->books) + 1;
+        $id_max = 0;
+        foreach ($this->books as $book) {
+            if ($book['id'] > $id_max) {
+                $id_max = $book['id'];
+            }
+        }
+
+        return $id_max + 1;
     }
 }
