@@ -2,7 +2,6 @@
 
 namespace App\EsgiAlgorithmie;
 
-use App\EsgiAlgorithmie\Models\Livre;
 use JsonException;
 
 final class Bibliotheque
@@ -17,7 +16,7 @@ final class Bibliotheque
      */
     public function __construct()
     {
-        $this->chargerLivres();
+        //$this->chargerLivres();
     }
 
     /**
@@ -28,8 +27,8 @@ final class Bibliotheque
         $livresArray = array_values($this->livres);
         $this->triFusion($livresArray, $colonne, $ordre);
         $this->livres = array_combine(array_column($livresArray, 'id'), $livresArray);
-        $this->sauvegarderLivres();
-        $this->enregistrerAction("Tri des livres par '$colonne' ($ordre)");
+        //$this->sauvegarderLivres();
+        //$this->enregistrerAction("Tri des livres par '$colonne' ($ordre)");
     }
 
     /**

@@ -6,7 +6,7 @@ declare(strict_types=1);
 use App\EsgiAlgorithmie\Actions\Library\LibraryAction;
 use App\EsgiAlgorithmie\Bibliotheque;
 use App\EsgiAlgorithmie\Console\Console;
-use App\EsgiAlgorithmie\Models\Book;
+use App\EsgiAlgorithmie\Enum\ConsoleEnum;
 
 require_once 'vendor/autoload.php';
 
@@ -44,38 +44,38 @@ while (true) {
 
     switch ($choix) {
         case '1':
-            $name = $console->read(DataType::String, "Nom du livre : ");
-            $description = $console->read(DataType::String, "Description du livre : ");
-            $is_available = $console->read(DataType::Boolean, "Le livre est-il disponible en stock ? (Yes/No) : ", 'no');
+            $name = $console->read(ConsoleEnum::String, "Nom du livre : ");
+            $description = $console->read(ConsoleEnum::String, "Description du livre : ");
+            $is_available = $console->read(ConsoleEnum::Boolean, "Le livre est-il disponible en stock ? (Yes/No) : ", 'no');
             $bookAction->create($name, $description, $is_available);
             break;
         case '2':
-            $id = $console->read(DataType::Integer, "ID du livre à modifier : ");;
-            $name = $console->read(DataType::String, "Nom du livre : ");
-            $description = $console->read(DataType::String, "Description du livre : ");
-            $is_available = $console->read(DataType::Boolean, "Le livre est-il disponible en stock ? (Yes/No) : ", 'no');
+            $id = $console->read(ConsoleEnum::Integer, "ID du livre à modifier : ");;
+            $name = $console->read(ConsoleEnum::String, "Nom du livre : ");
+            $description = $console->read(ConsoleEnum::String, "Description du livre : ");
+            $is_available = $console->read(ConsoleEnum::Boolean, "Le livre est-il disponible en stock ? (Yes/No) : ", 'no');
 
             $bookAction->update($id, $name, $description, $is_available);
             break;
         case '3':
-            $id = $console->read(DataType::String, "ID du livre à supprimer : ");
+            $id = $console->read(ConsoleEnum::String, "ID du livre à supprimer : ");
             $bookAction->delete($id);
             break;
         case '4':
             $bookAction->getAll();
             break;
         case '5':
-            $id = $console->read(DataType::String, "ID du livre à afficher : ");
+            $id = $console->read(ConsoleEnum::String, "ID du livre à afficher : ");
             $bookAction->get($id);
             break;
         case '6':
-            $col = $console->read(DataType::String, "Trier par quelle colonne ? (nom/description/disponible) : ");
-            $order = $console->read(DataType::String, "Ordre de tri (asc/desc) :");
+            $col = $console->read(ConsoleEnum::String, "Trier par quelle colonne ? (nom/description/disponible) : ");
+            $order = $console->read(ConsoleEnum::String, "Ordre de tri (asc/desc) :");
             $bibliotheque->trierLivres($col, $order);
             break;
         case '7':
-            $col = $console->read(DataType::String, "Rechercher sur quelle colonne ? (nom/description/disponible/id) : ");
-            $value = $console->read(DataType::String, "Valeur à rechercher :");
+            $col = $console->read(ConsoleEnum::String, "Rechercher sur quelle colonne ? (nom/description/disponible/id) : ");
+            $value = $console->read(ConsoleEnum::String, "Valeur à rechercher :");
             $bookFind = $bibliotheque->rechercherLivre($col, $value);
             if ($bookFind !== null) {
                 echo "Livre trouvé :\n";

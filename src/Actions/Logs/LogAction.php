@@ -12,7 +12,7 @@ class LogAction
      */
     public static function add(string $message): void
     {
-        $file = fopen(__DIR__ . '/logs/logs.txt', 'a+');
+        $file = fopen('logs.txt', 'ab+');
         fwrite($file, $message . 'at' . date('Y-m-d H:i:s') . PHP_EOL);
         fclose($file);
     }

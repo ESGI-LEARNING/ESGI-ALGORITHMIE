@@ -1,6 +1,7 @@
 <?php
 
-enum DataType: string
+namespace App\EsgiAlgorithmie\Enum;
+enum ConsoleEnum: string
 {
     case String = 'string';
     case Integer = 'integer';
