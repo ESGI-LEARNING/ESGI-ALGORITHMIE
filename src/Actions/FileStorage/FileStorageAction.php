@@ -12,7 +12,14 @@ class FileStorageAction
      */
     public static function getDataFile(string $path): mixed
     {
-        $json = file_get_contents($path);
+        if (!file_exists($path)) {
+            $file = fopen($path, 'w');
+            fclose($file);
+            $json = '[{}]';
+        } else {
+            $json = file_get_contents($path);
+        }
+
         return json_decode($json, true);
     }
 
