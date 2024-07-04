@@ -62,7 +62,8 @@ while (true) {
             $bookAction->delete($id);
             break;
         case '4':
-            $bookAction->getAll();
+            $book = $bookAction->getAll();
+            $console->displayArray($book);
             break;
         case '5':
             $id = $console->read(ConsoleEnum::String, "ID du livre à afficher : ");
