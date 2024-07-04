@@ -27,13 +27,6 @@ class Console
         echo "\033[31m$message\033[0m\n";
     }
 
-    public function displayArray(array $data): void
-    {
-        foreach ($data as $value) {
-            echo "ID: {$data['id']}, Nom: {$data['name']}, Description: {$data['description']}, Disponible: " . ($data['is_available'] ? "Oui" : "Non") . "\n";
-        }
-    }
-
     private function returnBool(string $output): bool
     {
         if (strtolower($output) === 'yes') {

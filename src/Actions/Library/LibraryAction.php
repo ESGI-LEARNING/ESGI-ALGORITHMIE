@@ -4,7 +4,7 @@ namespace App\EsgiAlgorithmie\Actions\Library;
 
 use App\EsgiAlgorithmie\Actions\FileStorage\FileStorageAction;
 use App\EsgiAlgorithmie\Actions\Logs\LogAction;
-use App\EsgiAlgorithmie\Model\Book;
+use App\EsgiAlgorithmie\Console\ConsoleBook;
 
 class LibraryAction
 {
@@ -90,33 +90,31 @@ class LibraryAction
     /**
      * Get all books
      *
-     * @return array
+     * @return void
      */
-    public function getAll(): array
+    public function getAll(): void
     {
         $this->logAction->add('Get All books');
-        return $this->books;
+        ConsoleBook::displayBooks($this->books);
     }
 
     /**
      * Get book by id
      *
      * @param string $id
-     * @return array
+     * @return void
      */
-    public function get(string $id): array
+    public function get(string $id): void
     {
         // verify if id is integer
         $id = intval($id);
 
         foreach ($this->books as $book) {
-            if ($book['id'] == $id) {
+            if ($book['id'] === $id) {
                 $this->logAction->add('Get book with id ' . $id);
-                return $book;
+                ConsoleBook::displayBook($book);
             }
         }
-
-        return [];
     }
 
     /**

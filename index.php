@@ -62,12 +62,11 @@ while (true) {
             $bookAction->delete($id);
             break;
         case '4':
-            $book = $bookAction->getAll();
-            $console->displayArray($book);
+            $bookAction->getAll();
             break;
         case '5':
             $id = $console->read(ConsoleEnum::String, "ID du livre à afficher : ");
-            $bookAction->get($id);
+             $bookAction->get($id);
             break;
         case '6':
             $col = $console->read(ConsoleEnum::String, "Trier par quelle colonne ? (nom/description/disponible) : ");
