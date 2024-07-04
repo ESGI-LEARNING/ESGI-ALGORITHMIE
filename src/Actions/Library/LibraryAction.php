@@ -127,6 +127,6 @@ class LibraryAction
             $lastId = max($lastId, $book['id']);
         }
 
-        return $lastId;
+        return $lastId + 1;
     }
 }
