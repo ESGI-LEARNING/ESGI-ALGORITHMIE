@@ -1,13 +1,19 @@
 <?php
+
 declare(strict_types=1);
 
-namespace App;
 
+use App\EsgiAlgorithmie\Actions\Library\LibraryAction;
 use App\EsgiAlgorithmie\Bibliotheque;
+use App\EsgiAlgorithmie\Console\Console;
+use App\EsgiAlgorithmie\Models\Book;
 
 require_once 'vendor/autoload.php';
 
 $bibliotheque = new Bibliotheque();
+$bookAction = new LibraryAction();
+$console = new Console();
+
 
 // Définit les options du menu
 const MENU_OPTIONS = [
@@ -32,51 +38,50 @@ while (true) {
     $choix = readline("Votre choix : ");
 
     if (!array_key_exists($choix, MENU_OPTIONS)) {
-        echo "Choix invalide. Veuillez choisir une option valide.\n";
+         $console->errorMessage("Choix invalide. Veuillez choisir une option valide.\n");
         continue;
     }
 
     switch ($choix) {
         case '1':
-            $nom = readline("Nom du livre : ");
-            $description = readline("Description du livre : ");
-            $disponible = readline("Le livre est-il disponible en stock ? (Oui/Non) : ");
-            $disponible = strtolower($disponible) === "oui" ? true : false;
-            $bibliotheque->ajouterLivre($nom, $description, $disponible);
+            $name = $console->read(DataType::String, "Nom du livre : ");
+            $description = $console->read(DataType::String, "Description du livre : ");
+            $is_available = $console->read(DataType::Boolean, "Le livre est-il disponible en stock ? (Yes/No) : ", 'no');
+            $bookAction->create($name, $description, $is_available);
             break;
         case '2':
-            $id = readline("ID du livre à modifier : ");
-            $nom = readline("Nouveau nom du livre : ");
-            $description = readline("Nouvelle description du livre : ");
-            $disponible = readline("Le livre est-il toujours disponible en stock ? (Oui/Non) : ");
-            $disponible = strtolower($disponible) === "oui" ? true : false;
-            $bibliotheque->modifierLivre($id, $nom, $description, $disponible);
+            $id = $console->read(DataType::Integer, "ID du livre à modifier : ");;
+            $name = $console->read(DataType::String, "Nom du livre : ");
+            $description = $console->read(DataType::String, "Description du livre : ");
+            $is_available = $console->read(DataType::Boolean, "Le livre est-il disponible en stock ? (Yes/No) : ", 'no');
+
+            $bookAction->update($id, $name, $description, $is_available);
             break;
         case '3':
-            $id = readline("ID du livre à supprimer : ");
-            $bibliotheque->supprimerLivre($id);
+            $id = $console->read(DataType::String, "ID du livre à supprimer : ");
+            $bookAction->delete($id);
             break;
         case '4':
-            $bibliotheque->afficherLivres();
+            $bookAction->getAll();
             break;
         case '5':
-            $id = readline("ID du livre à afficher : ");
-            $bibliotheque->afficherLivre($id);
+            $id = $console->read(DataType::String, "ID du livre à afficher : ");
+            $bookAction->get($id);
             break;
         case '6':
-            $colonne = readline("Trier par quelle colonne ? (nom/description/disponible) : ");
-            $ordre = readline("Ordre de tri (asc/desc) : ");
-            $bibliotheque->trierLivres($colonne, $ordre);
+            $col = $console->read(DataType::String, "Trier par quelle colonne ? (nom/description/disponible) : ");
+            $order = $console->read(DataType::String, "Ordre de tri (asc/desc) :");
+            $bibliotheque->trierLivres($col, $order);
             break;
         case '7':
-            $colonne = readline("Rechercher sur quelle colonne ? (nom/description/disponible/id) : ");
-            $valeur = readline("Valeur à rechercher : ");
-            $livreTrouve = $bibliotheque->rechercherLivre($colonne, $valeur);
-            if ($livreTrouve !== null) {
+            $col = $console->read(DataType::String, "Rechercher sur quelle colonne ? (nom/description/disponible/id) : ");
+            $value = $console->read(DataType::String, "Valeur à rechercher :");
+            $bookFind = $bibliotheque->rechercherLivre($col, $value);
+            if ($bookFind !== null) {
                 echo "Livre trouvé :\n";
-                $bibliotheque->afficherLivre($livreTrouve->id);
+                $bookAction->get($bookFind->id);
             } else {
-                echo "Livre non trouvé.\n";
+                $console->errorMessage("Aucun livre trouvé.");
             }
             break;
         case '8':

@@ -6,6 +6,7 @@
         }
     },
     "require": {
-      "ext-readline": "*"
+      "ext-readline": "*",
+      "ext-json": "*"
     }
 }

@@ -1,4 +1,4 @@
-FROM php:8.3-fpm-bullseye
+FROM php:8.3-fpm
 
 # Mise à jour et installation des dépendances nécessaires
 RUN apt-get update && apt-get install -y \
