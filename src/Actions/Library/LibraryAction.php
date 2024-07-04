@@ -4,12 +4,13 @@ namespace App\EsgiAlgorithmie\Actions\Library;
 
 use App\EsgiAlgorithmie\Actions\FileStorage\FileStorageAction;
 use App\EsgiAlgorithmie\Actions\Logs\LogAction;
+use App\EsgiAlgorithmie\Model\Book;
 
 class LibraryAction
 {
-    const string FILE_NAME = 'livres.json';
+    const FILE_NAME = 'livres.json';
 
-    private array $books;
+    private array $books = [];
 
     private LogAction $logAction;
 
@@ -29,16 +30,14 @@ class LibraryAction
      */
     public function create(string $name, string $description, bool $is_available): void
     {
-        $books = array_merge($this->books, [
-            [
-                'id' => $this->getLastId(),
-                'name' =>$name,
-                'description' => $description,
-                'is_available' => $is_available
-            ]
-        ]);
+        $this->books[] = [
+            'id' => $this->getLastId(),
+            'name' => $name,
+            'description' => $description,
+            'is_available' => $is_available
+        ];
 
-        FileStorageAction::saveDataFile(self::FILE_NAME, $books);
+        FileStorageAction::saveDataFile(self::FILE_NAME, $this->books);
         $this->logAction->add('Create book with id ' . $this->getLastId());
     }
 
@@ -53,11 +52,17 @@ class LibraryAction
      */
     public function update(int $id, string $name, string $description, bool $is_available): void
     {
+        $book['id'] = $id;
+        $book['name'] = $name;
+        $book['description'] = $description;
+        $book['is_available'] = $is_available;
         foreach ($this->books as &$objet) {
             if ($objet['id'] === $id) {
                 $objet['name'] = $name;
                 $objet['description'] = $description;
                 $objet['is_available'] = $is_available;
+
+                break;
             } else {
                 $this->logAction->add('Book not found with id ' . $id);
             }
@@ -75,9 +80,8 @@ class LibraryAction
      */
     public function delete(string $id): void
     {
-        $books = array_filter($this->books, function ($objet) use ($id) {
-            return $objet['id'] != intval($id);
-        });
+        $books = $this->books;
+        unset($books[$id]);
 
         FileStorageAction::saveDataFile(self::FILE_NAME, $books);
         $this->logAction->add('Delete book with id ' . $id);

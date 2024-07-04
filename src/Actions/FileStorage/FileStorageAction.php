@@ -15,9 +15,13 @@ class FileStorageAction
         if (!file_exists($path)) {
             $file = fopen($path, 'w');
             fclose($file);
-            $json = '[{}]';
+            $json = '[]';
         } else {
             $json = file_get_contents($path);
+        }
+
+        if (empty($json)) {
+            return [];
         }
 
         return json_decode($json, true);
@@ -32,7 +36,6 @@ class FileStorageAction
      */
     public static function saveDataFile(string $path, array $data): void
     {
-        $newJsonData = json_encode($data, JSON_PRETTY_PRINT);
-        file_put_contents($path, $newJsonData);
+        file_put_contents($path, json_encode($data));
     }
 }
