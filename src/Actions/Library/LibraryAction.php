@@ -52,10 +52,6 @@ class LibraryAction
      */
     public function update(int $id, string $name, string $description, bool $is_available): void
     {
-        $book['id'] = $id;
-        $book['name'] = $name;
-        $book['description'] = $description;
-        $book['is_available'] = $is_available;
         foreach ($this->books as &$objet) {
             if ($objet['id'] === $id) {
                 $objet['name'] = $name;
@@ -80,10 +76,14 @@ class LibraryAction
      */
     public function delete(string $id): void
     {
-        $books = $this->books;
-        unset($books[$id]);
+        for ($i = 0; $i < count($this->books); $i++) {
+            if ($this->books[$i]['id'] == $id) {
+                unset($this->books[$i]);
+                break;
+            }
+        }
 
-        FileStorageAction::saveDataFile(self::FILE_NAME, $books);
+        FileStorageAction::saveDataFile(self::FILE_NAME, array_values($this->books));
         $this->logAction->add('Delete book with id ' . $id);
     }
 
