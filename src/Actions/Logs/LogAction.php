@@ -16,4 +16,17 @@ class LogAction
         fwrite($file, $message . ' at ' . date('Y-m-d H:i:s') . PHP_EOL);
         fclose($file);
     }
+
+    public static function read(): array
+    {
+        $data = [];
+        $file = fopen('logs.txt', 'rb');
+
+        while (!feof($file)) {
+            $data[] = fgets($file);
+        }
+
+        fclose($file);
+        return $data;
+    }
 }

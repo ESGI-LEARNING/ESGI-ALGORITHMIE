@@ -6,6 +6,7 @@ declare(strict_types=1);
 use App\EsgiAlgorithmie\Actions\Library\LibraryAction;
 use App\EsgiAlgorithmie\Bibliotheque;
 use App\EsgiAlgorithmie\Console\Console;
+use App\EsgiAlgorithmie\Console\ConsoleLog;
 use App\EsgiAlgorithmie\Enum\ConsoleEnum;
 
 require_once 'vendor/autoload.php';
@@ -85,7 +86,7 @@ while (true) {
             }
             break;
         case '8':
-            $bibliotheque->afficherHistorique();
+            ConsoleLog::display();
             break;
         case '9':
             echo "Au revoir !\n";
