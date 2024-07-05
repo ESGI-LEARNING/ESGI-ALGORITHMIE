@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 
 use App\EsgiAlgorithmie\Actions\Library\LibraryAction;
-use App\EsgiAlgorithmie\Bibliotheque;
+use App\EsgiAlgorithmie\Actions\Library\LibrarySearchAction;
 use App\EsgiAlgorithmie\Console\Console;
 use App\EsgiAlgorithmie\Console\ConsoleLog;
 use App\EsgiAlgorithmie\Enum\ConsoleEnum;
 
 require_once 'vendor/autoload.php';
 
-$bibliotheque = new Bibliotheque();
 $bookAction = new LibraryAction();
 $console = new Console();
+$searchBook = new LibrarySearchAction();
 
 
 // Définit les options du menu
@@ -72,18 +72,20 @@ while (true) {
         case '6':
             $col = $console->read(ConsoleEnum::String, "Trier par quelle colonne ? (nom/description/disponible) : ");
             $order = $console->read(ConsoleEnum::String, "Ordre de tri (asc/desc) :");
-            $bibliotheque->trierLivres($col, $order);
+            $searchBook->sortBooks($col, $order);
             break;
         case '7':
             $col = $console->read(ConsoleEnum::String, "Rechercher sur quelle colonne ? (nom/description/disponible/id) : ");
             $value = $console->read(ConsoleEnum::String, "Valeur à rechercher :");
-            $bookFind = $bibliotheque->rechercherLivre($col, $value);
-            if ($bookFind !== null) {
+            $bookFind = $searchBook->searchBook($col, $value);
+
+            if ($bookFind) {
                 echo "Livre trouvé :\n";
-                $bookAction->get($bookFind->id);
+                $bookAction->get((string)$bookFind['id']);
             } else {
                 $console->errorMessage("Aucun livre trouvé.");
             }
+
             break;
         case '8':
             ConsoleLog::display();
