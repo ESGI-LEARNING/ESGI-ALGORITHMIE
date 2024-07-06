@@ -70,12 +70,12 @@ while (true) {
              $bookAction->get($id);
             break;
         case '6':
-            $col = $console->read(ConsoleEnum::String, "Trier par quelle colonne ? (nom/description/disponible) : ");
+            $col = $console->read(ConsoleEnum::String, "Trier par quelle colonne ? (name/description/is_available) : ");
             $order = $console->read(ConsoleEnum::String, "Ordre de tri (asc/desc) :");
             $searchBook->sortBooks($col, $order);
             break;
         case '7':
-            $col = $console->read(ConsoleEnum::String, "Rechercher sur quelle colonne ? (nom/description/disponible/id) : ");
+            $col = $console->read(ConsoleEnum::String, "Rechercher sur quelle colonne ? (name/description/is_available/id) : ");
             $value = $console->read(ConsoleEnum::String, "Valeur à rechercher :");
             $bookFind = $searchBook->searchBook($col, $value);
 
