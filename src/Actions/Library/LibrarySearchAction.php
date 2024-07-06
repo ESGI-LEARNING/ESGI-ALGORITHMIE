@@ -70,8 +70,14 @@ class LibrarySearchAction
         return [];
     }
 
+
     /**
-     * Implémentation du tri fusion
+     * Implementation sort fusion
+     *
+     * @param array $books
+     * @param string $col
+     * @param string $order
+     * @return void
      */
     private function sortFusion(array &$books, string $col, string $order): void
     {
@@ -89,8 +95,16 @@ class LibrarySearchAction
         $this->merge($books, $left, $right, $col, $order);
     }
 
+
     /**
-     * Fusionne deux sous-tableaux triés
+     * Merges two sorted sub-tables
+     *
+     * @param array $books
+     * @param array $left
+     * @param array $right
+     * @param string $col
+     * @param string $order
+     * @return void
      */
     private function merge(array &$books, array $left, array $right, string $col, string $order): void
     {
@@ -125,8 +139,14 @@ class LibrarySearchAction
         }
     }
 
+
     /**
-     * Compare deux livres selon une colonne donnée
+     * Compare two books according to a given column
+     *
+     * @param array $a
+     * @param array $b
+     * @param string $col
+     * @return int
      */
     private function compareBook(array $a, array $b, string $col): int
     {
@@ -135,7 +155,13 @@ class LibrarySearchAction
 
 
     /**
-     * Implémentation du tri rapide
+     * Implementing quick sorting
+     *
+     * @param array $books
+     * @param int $start
+     * @param int $end
+     * @param string $col
+     * @return void
      */
     private function fastSort(array &$books, int $start, int $end, string $col): void
     {
@@ -146,8 +172,15 @@ class LibrarySearchAction
         }
     }
 
+
     /**
-     * Partitionne le tableau pour le tri rapide
+     * Partition the table for quick sorting
+     *
+     * @param array $books
+     * @param int $start
+     * @param int $end
+     * @param string $col
+     * @return int
      */
     private function partition(array &$books, int $start, int $end, string $col): int
     {
