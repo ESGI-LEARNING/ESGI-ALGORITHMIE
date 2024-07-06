@@ -26,11 +26,11 @@ class LibrarySearchAction
      */
     public function sortBooks(string $col, string $order = "asc"): void
     {
-        $books = array_values($this->books);
+        $books = $this->books;
         $this->sortFusion($books, $col, $order);
         $this->books = array_combine(array_column($books, 'id'), $books);
 
-        FileStorageAction::saveDataFile(self::FILE_NAME, $this->books);
+        FileStorageAction::saveDataFile(self::FILE_NAME, array_values($this->books));
         $this->logAction->add("Tri des livres par '$col' ($order)");
     }
 
