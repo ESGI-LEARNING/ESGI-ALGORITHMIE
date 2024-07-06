@@ -1,5 +1,10 @@
 # Projet pédagogique - Algorithmie
 
+## Installation 
+
+- installer les dépendances : `composer install`
+- lancer le script : `php index.php`
+
 ## 3ème année 
 
 ### Introduction
