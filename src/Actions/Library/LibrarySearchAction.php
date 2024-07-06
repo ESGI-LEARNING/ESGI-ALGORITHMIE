@@ -31,7 +31,7 @@ class LibrarySearchAction
         $this->books = array_combine(array_column($books, 'id'), $books);
 
         FileStorageAction::saveDataFile(self::FILE_NAME, array_values($this->books));
-        $this->logAction->add("Tri des livres par '$col' ($order)");
+        $this->logAction->add("Sort book success with '$col' ($order)");
     }
 
 
@@ -55,6 +55,7 @@ class LibrarySearchAction
             $compare = strcmp($books[$middle][$col], $value);
 
             if ($compare == 0) {
+                $this->logAction->add("Search success with col $col and value $value");
                 return $books[$middle];
             }
 
@@ -65,6 +66,7 @@ class LibrarySearchAction
             }
         }
 
+        $this->logAction->add("Search not fount with col $col and value $value");
         return [];
     }
 
